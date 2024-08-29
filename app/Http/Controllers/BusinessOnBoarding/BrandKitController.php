@@ -26,29 +26,64 @@ class BrandKitController extends Controller
      */
     public function createBrandKit(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'business_id' => 'required|exists:brand_business,id',
-                'font_family' => 'required|string|max:255',
-                'color_code' => 'required|string|max:7',
-                'images' => 'required|array',
-                'images.*' => 'string'
-            ]);
 
-            if ($validator->fails()) {
-                return Helpers::ifValidatorFails($validator);
-            }
+        $validator = Validator::make($request->all(), [
+            'business_id' => 'required|exists:brand_business,id',
+            'font_family' => 'nullable|string|max:255',
+            'color_code' => 'nullable|string|size:7|regex:/^#[a-fA-F0-9]{6}$/',
+            'images' => 'nullable|array',
+            'images.*.image_file' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
+            'images.*.height' => 'nullable|integer',
+            'images.*.width' => 'nullable|integer',
+        ]);
 
-            $BrandKit = BrandKit::create($request->all());
-            if ($BrandKit) {
-                return Helpers::createResponse('BrandKit created', $BrandKit);
-            } else {
-                return Helpers::failResponse('BrandKit created');
+
+        if ($validator->fails()) {
+            return Helpers::ifValidatorFails($validator);
+        }
+
+
+        $imageData = [];
+
+
+        if ($request->has('images')) {
+            foreach ($request->images as $image) {
+                if (isset($image['image_file']) && $imageFile = $image['image_file']) {
+
+                    if ($imageFile instanceof \Illuminate\Http\UploadedFile) {
+
+                        $fileName = 'brand_kit-' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+
+
+                        $imageFile->move(public_path('brand_kit'), $fileName);
+
+
+                        $imageData[] = [
+                            'image_file' => $fileName ?? null,
+                            'height' => $image['height'] ?? null,
+                            'width' => $image['width'] ?? null,
+                        ];
+                    }
+                }
             }
-        } catch (\Exception $e) {
-            return Helpers::catchResponse($e);
+        }
+
+
+        $brandKitData = $request->except('images');
+        $brandKitData['images'] = $imageData;
+
+
+        $BrandKit = BrandKit::create($brandKitData);
+
+
+        if ($BrandKit) {
+            return Helpers::createResponse('BrandKit created', $BrandKit);
+        } else {
+            return Helpers::failResponse('BrandKit creation failed');
         }
     }
+
+
 
 
     /**
