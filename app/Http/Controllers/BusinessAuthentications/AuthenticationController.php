@@ -278,7 +278,7 @@ class AuthenticationController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Service created successfully', 'data' => $service]);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+            return Helpers::catchResponse($e);
         }
     }
 
@@ -295,7 +295,7 @@ class AuthenticationController extends Controller
 
             return response()->json(['status' => true, 'data' => $service]);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Service not found', 'error' => $e->getMessage()]);
+            return Helpers::catchResponse($e);
         }
     }
 
@@ -322,7 +322,7 @@ class AuthenticationController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Service updated successfully', 'data' => $service]);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+            return Helpers::catchResponse($e);
         }
     }
 
@@ -340,7 +340,7 @@ class AuthenticationController extends Controller
 
             return response()->json(['status' => true, 'message' => 'Service deleted successfully']);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+            return Helpers::catchResponse($e);
         }
     }
 
@@ -356,7 +356,7 @@ class AuthenticationController extends Controller
 
             return response()->json(['status' => true, 'data' => $services]);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+            return Helpers::catchResponse($e);
         }
     }
 }

@@ -36,12 +36,21 @@ Route::post("/creatorsLogin", [AuthenticationController::class, "creatorsLogin"]
 Route::post("/brandLogin", [AuthenticationController::class, "brandLogin"]);
 Route::post("/forgotPassword", [AuthenticationController::class, "forgotPassword"]);
 
+/* Creators service CRUD Operations */
 Route::post('/storeCreatorService', [AuthenticationController::class, 'storeCreatorService']);
 Route::get('/getCreatorServiceById/{id}', [AuthenticationController::class, 'getCreatorServiceById']);
 Route::put('/updateCreatorService/{id}', [AuthenticationController::class, 'updateCreatorService']);
-Route::get('/deleteCreatorService/{id}', [AuthenticationController::class, 'deleteCreatorService']);
-Route::delete('/getAllCreatorsServices', [AuthenticationController::class, 'getAllCreatorsServices']);
+Route::delete('/deleteCreatorService/{id}', [AuthenticationController::class, 'deleteCreatorService']);
+Route::ger('/getAllCreatorsServices', [AuthenticationController::class, 'getAllCreatorsServices']);
 
+/* Whatsapp Settings CRUD Operations */
+Route::post('/storeWhatsappReg', [AuthenticationController::class, 'storeWhatsappReg']);
+Route::get('/getWhatsappRegById/{id}', [AuthenticationController::class, 'getWhatsappRegById']);
+Route::put('/updateWhatsappReg/{id}', [AuthenticationController::class, 'updateWhatsappReg']);
+Route::delete('/deleteWhatsappReg/{id}', [AuthenticationController::class, 'deleteWhatsappReg']);
+Route::get('/getAllWhatsappReg', [AuthenticationController::class, 'getAllWhatsappReg']);
+
+/* CRM Customers, Leads, Groups, Segments CRUD Operations */
 Route::post("/addContact", [ContactsController::class, "addContact"]);
 Route::post("/importBulkContacts", [ContactsController::class, "importBulkContacts"]);
 Route::get('/contacts/brand/{brand_id}', [ContactsController::class, 'getContactsByBrandId']);
@@ -67,40 +76,38 @@ Route::delete('/deleteLeads/{id}', [ContactsController::class, 'deleteLead']);
 Route::get('/getLeads/brand/{id}', [ContactsController::class, 'getLeadsByBrandId']);
 Route::post("/importBulkLeads", [ContactsController::class, "importBulkLeads"]);
 
-//Category
+/* Categories CRUD Operations */
 Route::post('createCategory', [CategoryController::class, 'createCategory']);
 Route::get('readCategory', [CategoryController::class, 'readCategory']);
 Route::put('updateCategory', [CategoryController::class, 'updateCategory']);
 Route::delete('deleteCategory', [CategoryController::class, 'deleteCategory']);
 
-//SubCategory
+/* Sub Categories CRUD Operations */
 Route::post('createSubCategory', [CategoryController::class, 'createSubCategory']);
 Route::get('readSubCategory', [CategoryController::class, 'readSubCategory']);
 Route::put('updateSubCategory', [CategoryController::class, 'updateSubCategory']);
 Route::delete('deleteSubCategory', [CategoryController::class, 'deleteSubCategory']);
 
-//Brand Business
+/* Business basic, Service, Products CRUD Operations */
 Route::post('createBrandBusiness', [BrandBusinessController::class, 'createBrandBusiness']);
 Route::get('readBrandBusiness', [BrandBusinessController::class, 'readBrandBusiness']);
 Route::post('indexBrandBusiness', [BrandBusinessController::class, 'indexBrandBusiness']);
 Route::put('updateBrandBusiness', [BrandBusinessController::class, 'updateBrandBusiness']);
 Route::delete('deleteBrandBusiness', [BrandBusinessController::class, 'deleteBrandBusiness']);
 
-//Business Service
 Route::post('createBrandService', [BrandBusinessController::class, 'createBrandService']);
 Route::get('readBrandService', [BrandBusinessController::class, 'readBrandService']);
 Route::post('indexBrandService', [BrandBusinessController::class, 'indexBrandService']);
 Route::put('updateBrandService', [BrandBusinessController::class, 'updateBrandService']);
 Route::delete('deleteBrandService', [BrandBusinessController::class, 'deleteBrandService']);
 
-//Business Products
 Route::post('createBrandProducts', [BrandBusinessController::class, 'createBrandProducts']);
 Route::get('readBrandProducts', [BrandBusinessController::class, 'readBrandProducts']);
 Route::post('indexBrandProducts', [BrandBusinessController::class, 'indexBrandProducts']);
 Route::put('updateBrandProducts', [BrandBusinessController::class, 'updateBrandProducts']);
 Route::delete('deleteBrandProducts', [BrandBusinessController::class, 'deleteBrandProducts']);
 
-//Brand Kit
+/* Brand Kit CRUD Operations */
 Route::post('createBrandKit', [BrandKitController::class, 'createBrandKit']);
 Route::get('readBrandKit', [BrandKitController::class, 'readBrandKit']);
 Route::post('indexBrandKit', [BrandKitController::class, 'indexBrandKit']);
