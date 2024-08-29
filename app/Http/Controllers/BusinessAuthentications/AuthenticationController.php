@@ -6,6 +6,7 @@ use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\BrandAuthentication;
 use App\Models\CreatorsAuth;
+use App\Models\CreatorsServices;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -256,4 +257,106 @@ class AuthenticationController extends Controller
         }
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeCreatorService(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'creator_id' => 'required|integer',
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric',
+                'discount' => 'nullable|numeric',
+                'status' => 'required|boolean',
+            ]);
+
+            $service = CreatorsServices::create($validated);
+
+            return response()->json(['status' => true, 'message' => 'Service created successfully', 'data' => $service]);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getCreatorServiceById($id)
+    {
+        try {
+            $service = CreatorsServices::findOrFail($id);
+
+            return response()->json(['status' => true, 'data' => $service]);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Service not found', 'error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateCreatorService(Request $request, $id)
+    {
+        try {
+            $validated = $request->validate([
+                'creator_id' => 'required|integer',
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric',
+                'discount' => 'nullable|numeric',
+                'status' => 'required|boolean',
+            ]);
+
+            $service = CreatorsServices::findOrFail($id);
+            $service->update($validated);
+
+            return response()->json(['status' => true, 'message' => 'Service updated successfully', 'data' => $service]);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteCreatorService($id)
+    {
+        try {
+            $service = CreatorsServices::findOrFail($id);
+            $service->delete();
+
+            return response()->json(['status' => true, 'message' => 'Service deleted successfully']);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Get a list of all services.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllCreatorsServices()
+    {
+        try {
+            $services = CreatorsServices::all();
+
+            return response()->json(['status' => true, 'data' => $services]);
+        } catch (Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Something went wrong', 'error' => $e->getMessage()]);
+        }
+    }
 }

@@ -1,12 +1,10 @@
 <?php
 use App\Http\Controllers\Brand\ContactsController;
 use App\Http\Controllers\BusinessAuthentications\AuthenticationController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BusinessOnboarding\CategoryController;
 use App\Http\Controllers\BusinessOnboarding\BrandBusinessController;
 use App\Http\Controllers\BusinessOnboarding\BrandKitController;
-
-
+use App\Http\Controllers\BusinessOnboarding\CategoryController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +36,12 @@ Route::post("/creatorsLogin", [AuthenticationController::class, "creatorsLogin"]
 Route::post("/brandLogin", [AuthenticationController::class, "brandLogin"]);
 Route::post("/forgotPassword", [AuthenticationController::class, "forgotPassword"]);
 
+Route::post('/storeCreatorService', [AuthenticationController::class, 'storeCreatorService']);
+Route::get('/getCreatorServiceById/{id}', [AuthenticationController::class, 'getCreatorServiceById']);
+Route::put('/updateCreatorService/{id}', [AuthenticationController::class, 'updateCreatorService']);
+Route::get('/deleteCreatorService/{id}', [AuthenticationController::class, 'deleteCreatorService']);
+Route::delete('/getAllCreatorsServices', [AuthenticationController::class, 'getAllCreatorsServices']);
+
 Route::post("/addContact", [ContactsController::class, "addContact"]);
 Route::post("/importBulkContacts", [ContactsController::class, "importBulkContacts"]);
 Route::get('/contacts/brand/{brand_id}', [ContactsController::class, 'getContactsByBrandId']);
@@ -62,13 +66,6 @@ Route::put('/updateLeads/{id}', [ContactsController::class, 'updateLead']);
 Route::delete('/deleteLeads/{id}', [ContactsController::class, 'deleteLead']);
 Route::get('/getLeads/brand/{id}', [ContactsController::class, 'getLeadsByBrandId']);
 Route::post("/importBulkLeads", [ContactsController::class, "importBulkLeads"]);
-
-
-
-
-
-
-
 
 //Category
 Route::post('createCategory', [CategoryController::class, 'createCategory']);
@@ -109,7 +106,6 @@ Route::get('readBrandKit', [BrandKitController::class, 'readBrandKit']);
 Route::post('indexBrandKit', [BrandKitController::class, 'indexBrandKit']);
 Route::put('updateBrandKit', [BrandKitController::class, 'updateBrandKit']);
 Route::delete('deleteBrandKit', [BrandKitController::class, 'deleteBrandKit']);
-
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
