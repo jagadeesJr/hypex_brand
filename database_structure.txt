@@ -1,0 +1,204 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+
+Table brand_users {
+  id integer [primary key]
+  first_name TINYTEXT
+  last_name TINYTEXT
+  brand_name TINYTEXT
+  email TINYTEXT
+  phone_number TINYTEXT
+  country TINYTEXT
+  location TINYTEXT
+  password varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table brand_business {
+  id integer [primary key]
+  business_name varchar
+  brand_id integer
+  description text [note: 'Content of the business']
+  branch_area JSON
+  categories JSON
+  subcategories JSON
+  target_audience JSON
+  business_hours JSON
+  interests LONGTEXT
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table services {
+  id integer [primary key]
+  business_id integer
+  name varchar
+  duration varchar
+  price varchar
+  tax varchar
+  discount varchar
+  description text [note: 'Content of the service']
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table products {
+  id integer [primary key]
+  business_id integer
+  name varchar
+  price varchar
+  tax varchar
+  discount varchar
+  description text [note: 'Content of the product']
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts {
+  id integer [primary key]
+  business_id integer
+  group_id integer
+  segment_id integer
+  name varchar
+  phone_number varchar
+  location varchar
+  age varchar
+  email varchar
+  type varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table leads {
+  id integer [primary key]
+  business_id integer
+  name varchar
+  phone_number varchar
+  location varchar
+  age varchar
+  email varchar
+  type varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+
+Table groups {
+  id integer [primary key]
+  business_id integer
+  name varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table segments {
+  id integer [primary key]
+  business_id integer
+  title varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table brand_kit {
+  id integer [primary key]
+  business_id integer
+  font_family varchar
+  color_code varchar
+  images JSON
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table qrcode {
+  id integer [primary key]
+  business_id integer
+  title varchar
+  qr_details JSON
+  qr_image varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table whatsapp_reg {
+  id integer [primary key]
+  business_id integer
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table creator_users {
+  id integer [primary key]
+  first_name TINYTEXT
+  last_name TINYTEXT
+  phone_number varchar
+  email TINYTEXT
+  country TINYTEXT
+  location TINYTEXT
+  password varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table creators_service {
+  id integer [primary key]
+  creator_id integer
+  name varchar
+  price varchar
+  discount varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table categories {
+  id integer [primary key]
+  name varchar
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table subcategories {
+  id integer [primary key]
+  name varchar
+  category_id integer
+  status boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+// for brands
+Ref: brand_business.brand_id > brand_users.id
+Ref: subcategories.category_id > categories.id
+Ref: services.business_id > brand_business.id
+Ref: products.business_id > brand_business.id
+Ref: contacts.business_id > brand_business.id
+Ref: contacts.group_id > groups.id
+Ref: contacts.segment_id > segments.id
+Ref: brand_kit.business_id > brand_business.id
+Ref: whatsapp_reg.business_id > brand_business.id
+Ref: service_booking.business_id > brand_business.id
+Ref: order_products.business_id > brand_business.id
+Ref: service_payments.booking_id > service_booking.booking_id
+Ref: order_payments.order_id > order_products.order_id
+Ref: feedback.business_id > brand_business.id
+Ref: feedback.service_id > service_booking.id
+Ref: feedback.order_id > order_products.id
+Ref: reviews.business_id > brand_business.id
+Ref: reviews.service_id > service_booking.id
+Ref: reviews.order_id > order_products.id
+
+// for creators
+Ref: creators_service.creator_id > creator_users.id
+
